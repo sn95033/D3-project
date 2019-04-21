@@ -25,6 +25,7 @@ var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // Retrieve data from the CSV file and execute everything below
+// Note how the abbr column which are string values are treated, versus numbers columns
 
 d3.csv("/assets/data/data.csv")
   .then(function(censusData) {
@@ -33,7 +34,7 @@ d3.csv("/assets/data/data.csv")
   // parse data
   censusData.forEach(function(data) {
     //data.id = +data.id;
-    //data.state = +data.state;
+    //data["state"] = +data["state"];
     data["abbr"] = data["abbr"];
     //data.poverty = +data.poverty;
     //data.povertyMoe = +data.povertyMoe;
@@ -95,10 +96,10 @@ d3.csv("/assets/data/data.csv")
     .append("text")
     .text(function(data) { return data["abbr"]; })
     .attr('x', function(data) {
-      return xLinearScale(data.obesity);
+      return xLinearScale(data.obesity)+100;
     })
     .attr('y', function(data) {
-      return yLinearScale(data.smokes);
+      return yLinearScale(data.smokes)+26;
     })
     .attr("font-size", "10px")
     .attr("fill", "black")
