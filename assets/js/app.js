@@ -25,7 +25,14 @@ var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // Retrieve data from the CSV file and execute everything below
-// Note how the abbr column which are string values are treated, versus numbers columns
+//  how the abbr column which are string values are treated, versus numbers columns
+// Reference:  http://learnjsdata.com/read_data.html.  Examples show the use of .then and the formatting for strings
+// Reference:  https://www.tutorialsteacher.com/d3js/loading-data-from-file-in-d3js - the official but not as helpful
+// I had difficulties using the d3.csv call without the .then function :
+// I would always get an undetected promise error, and the file would not be read
+// Also the console log would not work
+// Using the .then function does not allow errors to be displayed
+// Instead you have to use console.log
 
 d3.csv("/assets/data/data.csv")
   .then(function(censusData) {
@@ -90,6 +97,13 @@ d3.csv("/assets/data/data.csv")
     .attr("opacity", ".5");
 
     // Create labels inside the circles
+    // The following snippet of code comes from my tutor
+    // Sivakumar Venkatachalam
+    // The text doesn't come out in the right location
+    // So editing was used to position the text labels properly
+    // inside the circles.  There is probably a better way to do this
+
+
     svg.selectAll(".dot")
     .data(censusData)
     .enter()
@@ -106,8 +120,7 @@ d3.csv("/assets/data/data.csv")
     .style("text-anchor", "middle");
     
 
-
-    // Step 6: Initialize tool tip
+    // Step 6: Initialize tool tip - Right now not using mouseover animation
     // ==============================
     //var toolTip = d3.tip()
     //  .attr("class", "tooltip")
