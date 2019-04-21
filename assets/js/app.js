@@ -17,7 +17,9 @@ var height = svgHeight - margin.top - margin.bottom;
 var svg = d3.select("#chart")
   .append("svg")
   .attr("width", svgWidth)
-  .attr("height", svgHeight);
+  .attr("height", svgHeight)
+  .append('g')
+  .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
@@ -26,18 +28,13 @@ var chartGroup = svg.append("g")
 
 d3.csv("/assets/data/data.csv")
   .then(function(censusData) {
-  console.log(censusData);
-
-//const censusData = await d3.csv("data.csv");
-//console.log(censusData);
-
- 
-
+    
+  //console.log(censusData); 
   // parse data
   censusData.forEach(function(data) {
     //data.id = +data.id;
     //data.state = +data.state;
-    data.abbr = +data.abbr;
+    data["abbr"] = data["abbr"];
     //data.poverty = +data.poverty;
     //data.povertyMoe = +data.povertyMoe;
     data.age = +data.age;
@@ -47,7 +44,7 @@ d3.csv("/assets/data/data.csv")
     //data.noHealthInsurance = +data.noHealthInsurance;
     data.obesity = +data.obesity;
     data.smokes = +data.smokes;
-    console.log(data.age)
+  //  console.log(data.age);
   });
 
    //process csv file using a for loop.
@@ -79,7 +76,7 @@ d3.csv("/assets/data/data.csv")
     chartGroup.append("g")
       .call(leftAxis);
 
-    // Step 5: Create Circles
+    // Step 5: Create Circles and texts
     // ==============================
     var circlesGroup = chartGroup.selectAll("circle")
     .data(censusData)
@@ -91,28 +88,46 @@ d3.csv("/assets/data/data.csv")
     .attr("fill", "lightblue")
     .attr("opacity", ".5");
 
+    // Create labels inside the circles
+    svg.selectAll(".dot")
+    .data(censusData)
+    .enter()
+    .append("text")
+    .text(function(data) { return data["abbr"]; })
+    .attr('x', function(data) {
+      return xLinearScale(data.obesity);
+    })
+    .attr('y', function(data) {
+      return yLinearScale(data.smokes);
+    })
+    .attr("font-size", "10px")
+    .attr("fill", "black")
+    .style("text-anchor", "middle");
+    
+
+
     // Step 6: Initialize tool tip
     // ==============================
-    var toolTip = d3.tip()
-      .attr("class", "tooltip")
-      .offset([80, -60])
-      .html(function(d) {
-        return (`${d.abbr}`);
-      });
+    //var toolTip = d3.tip()
+    //  .attr("class", "tooltip")
+    //  .offset([80, -60])
+     // .html(function(d) {
+     //   return (`${d.abbr}`);
+     // });
 
     // Step 7: Create tooltip in the chart
     // ==============================
-    chartGroup.call(toolTip);
+    //chartGroup.call(toolTip);
 
     // Step 8: Create event listeners to display and hide the tooltip
     // ==============================
-    circlesGroup.on("click", function(data) {
-      toolTip.show(data, this);
-    })
+    //circlesGroup.on("click", function(data) {
+    //  toolTip.show(data, this);
+    //})
       // onmouseout event
-      .on("mouseout", function(data, index) {
-        toolTip.hide(data);
-      });
+    //  .on("mouseout", function(data, index) {
+    //    toolTip.hide(data);
+    //  });
 
     // Create axes labels
     chartGroup.append("text")
