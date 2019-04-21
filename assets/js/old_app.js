@@ -1,12 +1,12 @@
 // @TODO: YOUR CODE HERE!
-var svgWidth = 850;
+var svgWidth = 960;
 var svgHeight = 500;
 
 var margin = {
   top: 20,
-  right: 120,
+  right: 50,
   bottom: 80,
-  left: 35
+  left: 100
 };
 
 var width = svgWidth - margin.left - margin.right;
@@ -96,10 +96,10 @@ d3.csv("/assets/data/data.csv")
     .append("text")
     .text(function(data) { return data["abbr"]; })
     .attr('x', function(data) {
-      return xLinearScale(data.obesity)+35;
+      return xLinearScale(data.obesity)+100;
     })
     .attr('y', function(data) {
-      return yLinearScale(data.smokes)+25;
+      return yLinearScale(data.smokes)+26;
     })
     .attr("font-size", "10px")
     .attr("fill", "black")
@@ -133,14 +133,14 @@ d3.csv("/assets/data/data.csv")
     // Create axes labels
     chartGroup.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left -25)
-      .attr("x", 0 - (height / 2)+5)
+      .attr("y", 0 - margin.left + 40)
+      .attr("x", 0 - (height / 2))
       .attr("dy", "1em")
       .attr("class", "axisText")
       .text("% Smoke");
 
     chartGroup.append("text")
-      .attr("transform", `translate(${width / 2}, ${height + margin.top + 25})`)
+      .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
       .attr("class", "axisText")
       .text("% Obese");
   });
