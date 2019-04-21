@@ -133,14 +133,14 @@ d3.csv("/assets/data/data.csv")
     // Create axes labels
     chartGroup.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left -25)
-      .attr("x", 0 - (height / 2)+5)
+      .attr("y", 0 - margin.left -20)
+      .attr("x", 0 - (height / 2) -35)
       .attr("dy", "1em")
       .attr("class", "axisText")
-      .text("% Smoke");
+      .text("% Smokers");
 
     chartGroup.append("text")
-      .attr("transform", `translate(${width / 2}, ${height + margin.top + 25})`)
+      .attr("transform", `translate(${width / 2 - 25}, ${height + margin.top + 25})`)
       .attr("class", "axisText")
       .text("% Obese");
   });
